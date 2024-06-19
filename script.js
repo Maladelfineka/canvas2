@@ -7,8 +7,8 @@ var ctx = canvas.getContext('2d');
 
 let x = 0;
 const y = 100;
-const width = 50;
-const height = 150;
+const width = 100;
+const height = 125;
 let zmiana = false;
 
 function draw (){
@@ -17,11 +17,11 @@ function draw (){
     if(x>300) {
         ctx.fillStyle ='blue';
     }else if(x>100){
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'purple';
     }
     else{
 
-        ctx.fillStyle ='red';
+        ctx.fillStyle ='pink';
 
     }
     ctx.fillRect(x,y,width,height)
