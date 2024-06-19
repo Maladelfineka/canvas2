@@ -9,7 +9,7 @@ let x = 0;
 const y = 100;
 const width = 50;
 const height = 150;
-
+let zmiana = false;
 
 function draw (){
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -38,12 +38,121 @@ function update() {
 
 };
 
+window.addEventListener('keydown', function (event) {
+
+    if (event.key&&!zmiana) {
+        animate();
+        zmiana = true;
+    }else if (event.key&& zmiana) {
+        zmiana = false;
+    }
+    
+
+    
+
+});
+
 function animate() {
     update();
     draw();
-    requestAnimationFrame(animate);
+    if (zmiana) {
+        requestAnimationFrame(animate);
+    }else{
+
+    }
+
 }
-animate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ctx.fillStyle = "black";
 // ctx.fillRect(50,50,50,50)
 
