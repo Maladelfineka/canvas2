@@ -14,19 +14,25 @@ const height = 150;
 function draw (){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     // ctx.fillStyle = 'blue';
-    ctx.fillRect(x,y,width,height)
-    if(x>100) {
+    if(x>300) {
         ctx.fillStyle ='blue';
-    }else{
-        ctx.fillStyle ='red';
+    }else if(x>100){
+        ctx.fillStyle = 'green';
     }
+    else{
+
+        ctx.fillStyle ='red';
+
+    }
+    ctx.fillRect(x,y,width,height)
 
 };
 
 
 function update() {
     x +=10;
-    if(x> 400) {
+    if(x> canvas.width) {
+
         x=0; 
     };
 
