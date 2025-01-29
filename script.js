@@ -1,184 +1,96 @@
-// alert('wiadomosc'); pokazuje "alert na stronie"
 
-let canvas = document.querySelector('#canvas');
-console.log(canvas);
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const scoreDisplay = document.getElementById("score");
 
-var ctx = canvas.getContext('2d');
-
-let x = 0;
-const y = 100;
-const width = 100;
-const height = 125;
-let zmiana = false;
-
-function draw (){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // ctx.fillStyle = 'blue';
-    if(x>300) {
-        ctx.fillStyle ='blue';
-    }else if(x>100){
-        ctx.fillStyle = 'purple';
-    }
-    else{
-
-        ctx.fillStyle ='pink';
-
-    }
-    ctx.fillRect(x,y,width,height)
-
+const player = {
+    x: canvas.width / 2 - 25,
+    y: canvas.height / 2 - 25,
+    width: 50,
+    height: 50,
+    color: "pink",
+    speed: 20,
 };
 
+const point = {
+    x:Math.random() * (canvas.width - 20), 
+    y:Math.random() * (canvas.height - 20), 
+    size: 20,
+    color: "green"
+}
+let score = 0
 
-function update() {
-    x +=10;
-    if(x> canvas.width) {
+function drawPlayer() {
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, player.width, player.height,)
+}
 
-        x=0; 
-    };
-
-};
-
-window.addEventListener('keydown', function (event) {
-
-    if (event.key&&!zmiana) {
-        animate();
-        zmiana = true;
-    }else if (event.key&& zmiana) {
-        zmiana = false;
-    }
-    
-
-    
-
-});
-
-function animate() {
-    update();
-    draw();
-    if (zmiana) {
-        requestAnimationFrame(animate);
-    }else{
-
-    }
-
+function drawPoint() {
+    ctx.fillStyle = point.color;
+    ctx.beginPath();
+    ctx.arc(
+        point.x + point.size / 2,
+        point.y + point.size / 2,
+        point.size / 2,
+        0,
+        Math.PI * 2
+    );
+    ctx.fill();
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ctx.fillStyle = "black";
-// ctx.fillRect(50,50,50,50)
-
-// ctx.fillStyle = "green";
-// ctx.fillRect(150,150,25,50)
-
-// var centerX = canvas.width / 2;
-// var centerY = canvas.height / 2;
-// var radius = 70;
-// ctx.beginPath();
-
-// ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-// ctx.fillStyle = 'blue'
-// ctx.fill()
-// ctx.strokeStyle = 'blue'
-// ctx.stroke();
-
-// ctx.fillStyle = "red";
-// ctx.fillRect(450,450,50,50)
-
-// ctx.fillStyle = "orange";
-// ctx.fillRect(0,450,55,50)
-
-// ctx.fillStyle = "yellow";
-// ctx.fillRect(450, 0,55,50)
-
-
-// ctx.fillStyle = "grey";
-// ctx.fillRect(0,0,55,50)
+function clearCanvas(){
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+};
+
+function checkCollision() {
+    if (
+        player.x < point.x + point.size &&
+        player.x + player.width > point.x &&
+        player.y < point.y + point.size &&
+        player.y + player.height > point.y
+    ) {
+        score++;
+        scoreDisplay.innerHTML = `Score: ${score}`;
+
+
+        point.x = Math.random() * (canvas.width - point.size);
+        point.y = Math.random() * (canvas.height - point.size);
+    }
+}
+
+document.addEventListener("keydown", (event) => {
+    console.log(event);
+    switch (event.key) {
+        case "ArrowUp":
+            if (player.y > 0) {
+                player.y -= player.speed;
+            }
+            break;
+        case "ArrowDown":
+            if (player.y + player.height < canvas.height) {
+                player.y += player.speed;
+            }
+            break;
+        case "ArrowLeft":
+            if (player.x > 0) {
+                player.x -= player.speed;
+            }
+            break;
+        case "ArrowRight":
+            if (player.x + player.width < canvas.width) {
+                player.x += player.speed;
+            }
+            break;
+    }
+});
+
+function gameLoop() {
+    clearCanvas();
+    drawPlayer();
+    drawPoint();
+    checkCollision();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
